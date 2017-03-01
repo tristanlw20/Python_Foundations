@@ -52,12 +52,14 @@ while menu_choice != 5:
     
     # view current entries
     if menu_choice == 1:
+        assert (menu_choice==1), "Not sure how i got here..."
         print("Current Users:")
         for x,y in usernames.items():
             print("Name: {} \tUser Name: {} \n".format(x,y))
             
     # add an entry
     elif menu_choice == 2:
+        assert (menu_choice==2), "Not sure how i got here..."
         print("Add User")
         name = input("Name: ")
         if name not in usernames:
@@ -80,12 +82,14 @@ while menu_choice != 5:
             bywhat = int(input("Type in a number (1-2): "))
         except ValueError:
             bywhat = int(input("Menu choice must be entered as an integer. Type in a number (1-2): "))
+        #remove an entry by name
         if bywhat==1:
             name = input("Name: ")
             if name in usernames:
                 del usernames[name]
             else:
                 print("Name not found.")
+        #remove an entry by username
         elif bywhat ==2:
             usname = input("Username: ")
             if usname in usernames.values():
@@ -94,6 +98,7 @@ while menu_choice != 5:
                         del usernames[name]
             else:
                 print("Username not found.")
+        #print message if 1 or 2 was not chosen
         else:
             print("Invalid choice. Returning to main menu.")
 
@@ -101,6 +106,7 @@ while menu_choice != 5:
 
     # view user name      
     elif menu_choice == 4:
+        assert (menu_choice==4), "Not sure how i got here..."
         print("Lookup User")
         name = input("Name: ")
         if name in usernames:
@@ -108,6 +114,7 @@ while menu_choice != 5:
         else:
             print("User not found.")
     
-    # is user enters something strange, show them the menu
+    # if user enters something strange, show them the menu
     elif menu_choice != 5:
+       assert (menu_choice!=5), "Not sure how i got here..."
        print_menu()
