@@ -10,15 +10,16 @@ import csv
 import pandas as pd
 from collections import OrderedDict
 from sortedcontainers import SortedDict
+import matplotlib.pyplot as plt
 
-def print_menu (sys.argv[1], sys.argv[2])
+def print_menu ():
 	"""This script is used to stores user's favorite NHL teams. The user
 	passes in their name and favorite team, which then get stored in a dictionary
 	that can be used for analysis of the entries."""
-	print ("1. Print Users")
-	print ("2. Add Users")
-	print ("3. View Team Counts")
-	print ("4. Graph Team Counts")
+	print ("1. Print Fans")
+	print ("2. Add Fan")
+	print ("3. View Team Fan Counts")
+	print ("4. Graph Team Fan Counts")
 	print ("5. Quit")
 
 # Create dictionary with key = Names, value = user_name
@@ -28,7 +29,7 @@ nhlpicks['Daniel'] = 'Colorado Avalanche'
 nhlpicks['Robby'] = 'San Jose Sharks'
 nhlpicks['Robb'] = 'Colorado Avalanche'
 nhlpicks['CJ'] = 'Pittsburgh Penguins'
-nhlpicks['Tristan']= '|Sneak|'
+nhlpicks['Katie']= 'Chicago Blackhawks'
 
 nhlteams = ["Carolina Hurricanes", "Columbus Blue Jackets","Colorado Avalanche","San Jose Sharks", 
 	"New Jersey Devils", "New York Islanders", "New York Rangers", "Philadelphia Flyers", 
@@ -55,66 +56,43 @@ while menu_choice != 5:
     # view current entries
     if menu_choice == 1:
         assert (menu_choice==1), "Not sure how i got here..."
-        print("Current Users:")
-        for x,y in usernames.items():
-            print("Name: {} \tUser Name: {} \n".format(x,y))
+        print("Current Fans:")
+        for x,y in nhlpicks.items():
+            print("Name: {} \tFavorite Team: {} \n".format(x,y))
             
     # add an entry
     elif menu_choice == 2:
         assert (menu_choice==2), "Not sure how i got here..."
-        print("Add User")
+        print("Favorite NHL Team")
         name = input("Name: ")
-        if name not in usernames:
-            username = input("User Name: ")
-            while username in usernames.values():
-                print("Username already taken. Please enter a new username: ")
-                username = input("User Name: ")
-            usernames[name] = username
-
+        if name not in nhlpicks:
+            nhlpick = input("Favorite Team: ")
+            while nhlpick not in nhlteams:
+            	nhlpick = input("NHL team does not exist. Choose another team. Favorite Team:")
+            nhlpicks[name] = nhlpick
         else:
-            print(name + " already has a username.")
+            print("{} already pledged allegience to the {}!".format(name, nhlpicks[name]))
 
         
-    # remove an entry
+    # view team fan counts
     elif menu_choice == 3:
-        print("Remove User")
-        print("1. By name.")
-        print("2. By username.")
-        try:
-            bywhat = int(input("Type in a number (1-2): "))
-        except ValueError:
-            bywhat = int(input("Menu choice must be entered as an integer. Type in a number (1-2): "))
-        #remove an entry by name
-        if bywhat==1:
-            name = input("Name: ")
-            if name in usernames:
-                del usernames[name]
-            else:
-                print("Name not found.")
-        #remove an entry by username
-        elif bywhat ==2:
-            usname = input("Username: ")
-            if usname in usernames.values():
-                for name, user in usernames.iteritems():
-                    if user == usname:
-                        del usernames[name]
-            else:
-                print("Username not found.")
-        #print message if 1 or 2 was not chosen
+        assert (menu_choice==3), "Not sure how i got here..."
+        fanteam = input("NHL Team: ")
+        teamcount = 0
+        if fanteam in nhlteams:
+            for team in nhlpicks.values():
+                if fanteam == team:
+                    teamcount+=1
+            print("The {} have {} dedicated fans.".format(fanteam, teamcount))
         else:
-            print("Invalid choice. Returning to main menu.")
+            print("That is not an NHL team.")
 
-            
+        
 
-    # view user name      
+    # graph team fan counts     
     elif menu_choice == 4:
         assert (menu_choice==4), "Not sure how i got here..."
-        print("Lookup User")
-        name = input("Name: ")
-        if name in usernames:
-            print("Username is " + str(usernames[name]))
-        else:
-            print("User not found.")
+        
     
     # if user enters something strange, show them the menu
     elif menu_choice != 5:
