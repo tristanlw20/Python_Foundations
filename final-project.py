@@ -2,6 +2,16 @@
 Tristan Wickliff
 IT Foundations 100B
 Final Project
+
+Criteria:
+Include a function that takes at least two user arguments from the command line
+Contain at least one if/else statement
+Perform a caclulation on a list
+Use at least one dictionary
+Have one try/except clause for every function
+Output something (write) to a file, using string formatting
+Must include docstrings telling us how to run your script.
+Either create a class to contain the related functions OR output a simple graph
 """
 
 
