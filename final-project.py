@@ -2,16 +2,6 @@
 Tristan Wickliff
 IT Foundations 100B
 Final Project
-
-Criteria:
-Include a function that takes at least two user arguments from the command line
-Contain at least one if/else statement
-Perform a caclulation on a list
-Use at least one dictionary
-Have one try/except clause for every function
-Output something (write) to a file, using string formatting
-Must include docstrings telling us how to run your script.
-Either create a class to contain the related functions OR output a simple graph
 """
 
 
@@ -21,6 +11,14 @@ import pandas as pd
 from collections import OrderedDict
 from sortedcontainers import SortedDict
 import matplotlib.pyplot as plt
+
+def write_input(word1, word2):
+    """This is purely to meet the project criteria. The user will use system arguments,
+    any of their choosing, and simply be written to the writeto.txt file."""
+    f=open("writeto.txt", "w+")
+    f.write("The first system arguement was {} and the second was {}.".format(word1, word2))
+    f.close()
+write_input(sys.argv[1], sys.argv[2])
 
 def print_menu ():
 	"""This script is used to stores user's favorite NHL teams. The user
@@ -90,21 +88,41 @@ while menu_choice != 5:
         fanteam = input("NHL Team: ")
         teamcount = 0
         if fanteam in nhlteams:
+            teamcount = 0
             for team in nhlpicks.values():
                 if fanteam == team:
                     teamcount+=1
-            print("The {} have {} dedicated fans.".format(fanteam, teamcount))
+            print("Of the {} teams in the NHL, the {} have {} dedicated fans.".format(len(nhlteams),fanteam, teamcount))
         else:
             print("That is not an NHL team.")
 
         
-
     # graph team fan counts     
     elif menu_choice == 4:
         assert (menu_choice==4), "Not sure how i got here..."
+        fantotals=SortedDict()
+        for team in nhlpicks.values():
+            teamcount=0
+            if team not in fantotals.items():
+                for tc in nhlpicks.values():
+                    if tc==team:
+                        teamcount+=1
+            fantotals[team]=teamcount
+
+        tosave = plt.figure("Dedicated Fans for an NHL Team")
+        plt.bar(range(len(fantotals)), fantotals.values(), align='center')
+        plt.xticks(range(len(fantotals)), fantotals.keys())
+        plt.xticks(rotation=6)
+        plt.ylabel("Dedicated Fan Count")
+        plt.xlabel("NHL Teams")
+
+        #plt.show()
+        tosave.savefig("fancount.pdf")
+        print("Graph printed to fancount.pdf")
         
-    
     # if user enters something strange, show them the menu
     elif menu_choice != 5:
        assert (menu_choice!=5), "Not sure how i got here..."
        print_menu()
+
+
